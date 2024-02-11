@@ -45,7 +45,7 @@ const Header = () => {
           </NavLink>
         </div>
         <div className="flex flex-col gap-4">
-          {location?.pathname === "/create" && (
+          {location?.pathname.match(/\/create/) && (
             <button
               onClick={() => null}
               title="Save flow"

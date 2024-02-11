@@ -9,14 +9,23 @@ import ReactFlow, {
   Connection,
 } from "reactflow";
 import { MessageData, nodeTypes } from "../components/nodes";
-import { NodesPanel, SettingsPanel } from "../components/panels";
+import { NodesPanel, SettingsPanel } from "../components/drawers";
 import { addEndMarker } from "../utils";
-import { useCallback } from "react";
+import { useCallback, useEffect, useMemo } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const Create = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [nodes, setNodes, onNodesChange] = useNodesState<MessageData>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<never>([]);
+  const { flowId } = useParams();
+  const navigate = useNavigate();
+
+  const uuid = useMemo(() => flowId ?? crypto.randomUUID(), [flowId]);
+
+  useEffect(() => {
+    if (!flowId) navigate(`/create/${uuid}`);
+  });
 
   const onConnect = useCallback(
     (params: Connection) => {

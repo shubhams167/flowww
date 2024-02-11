@@ -18,7 +18,7 @@ export * from "./settings";
 const routes = createRoutesFromElements(
   <Route element={<Layout />}>
     <Route path="/" index element={<Home />} />
-    <Route path="/create" element={<Create />} />
+    <Route path="/create/:flowId?" element={<Create />} />
     <Route path="/view" element={<View />} />
     <Route path="/settings" element={<Settings />} />
   </Route>

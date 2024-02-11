@@ -11,10 +11,10 @@ export const Home = () => {
         appear={true}
         show={true}
         enter="transition-all duration-700"
-        enterFrom="opacity-0 translate-y-1/2"
+        enterFrom="opacity-0 translate-y-1/4"
         enterTo="opacity-100 translate-y-0"
         leaveFrom="opacity-100 translate-y-0"
-        leaveTo="opacity-0 translate-y-1/2"
+        leaveTo="opacity-0 translate-y-1/4"
       >
         <h1 className="p-20 text-9xl tracking-wider text-center font-serif font-bold text-slate-800">
           Flowww

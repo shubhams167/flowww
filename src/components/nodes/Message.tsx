@@ -2,6 +2,7 @@ import { MessageSquareText, Pencil } from "lucide-react";
 import { Handle, NodeProps, Position } from "reactflow";
 
 export type MessageData = {
+  type: "Message";
   label: string;
   text?: string;
 };

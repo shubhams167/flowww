@@ -1,7 +1,8 @@
 import { Transition } from "@headlessui/react";
-import { MessageSquareText, Plus, Shapes } from "lucide-react";
+import { AudioLines, Image, MessageSquareText, Plus, Shapes } from "lucide-react";
 import React, { useEffect } from "react";
 import { useReactFlow } from "reactflow";
+import { CustomNode } from "../nodes";
 
 type Props = {
   show: boolean;
@@ -16,7 +17,7 @@ export const NodesPanel = ({ show }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodes.length]);
 
-  const addMessageNode = () => {
+  const addNode = (nodeType: CustomNode) => {
     const lastNode = nodes.at(-1);
     const lastNodeId = lastNode ? lastNode.id : "0";
     const nextNodeId = String(+lastNodeId + 1);
@@ -29,9 +30,9 @@ export const NodesPanel = ({ show }: Props) => {
       ...oldNodes,
       {
         id: nextNodeId,
-        type: "Message",
+        type: nodeType,
         position: nextNodePosition,
-        data: { label: `Message ${nextNodeId}` },
+        data: { type: nodeType, label: `${nodeType} ${nextNodeId}` },
       },
     ]);
   };
@@ -57,10 +58,26 @@ export const NodesPanel = ({ show }: Props) => {
         <div className="flex flex-col gap-2 p-3">
           <button
             className="text-white bg-message rounded-md p-4 flex items-center gap-2 hover:bg-message-darkest transition-colors duration-200"
-            onClick={addMessageNode}
+            onClick={() => addNode("Message")}
           >
             <MessageSquareText size={20} />
             <span className="font-semibold text-lg flex-grow text-left">Message</span>
+            <Plus size={24} absoluteStrokeWidth />
+          </button>
+          <button
+            className="text-white bg-image rounded-md p-4 flex items-center gap-2 hover:bg-image-darkest transition-colors duration-200"
+            onClick={() => addNode("Image")}
+          >
+            <Image size={20} />
+            <span className="font-semibold text-lg flex-grow text-left">Image</span>
+            <Plus size={24} absoluteStrokeWidth />
+          </button>
+          <button
+            className="text-white bg-audio rounded-md p-4 flex items-center gap-2 hover:bg-audio-darkest transition-colors duration-200"
+            onClick={() => addNode("Audio")}
+          >
+            <AudioLines size={20} />
+            <span className="font-semibold text-lg flex-grow text-left">Audio</span>
             <Plus size={24} absoluteStrokeWidth />
           </button>
         </div>
