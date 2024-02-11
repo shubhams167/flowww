@@ -1,7 +1,8 @@
 import { ReactFlowProvider } from "reactflow";
 import { Home, Create, View, Settings } from "./routes";
 import {
-  createBrowserRouter,
+  // createBrowserRouter,
+  createHashRouter,
   createRoutesFromElements,
   Route,
   RouterProvider,
@@ -9,7 +10,7 @@ import {
 import { Layout } from "./components/layout";
 
 export default function App() {
-  const router = createBrowserRouter(
+  const router = createHashRouter(
     createRoutesFromElements(
       <Route element={<Layout />}>
         <Route path="/" index element={<Home />} />
