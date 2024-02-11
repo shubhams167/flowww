@@ -3,6 +3,7 @@ import { AudioLines, Image, MessageSquareText, Plus, Shapes } from "lucide-react
 import React, { useEffect } from "react";
 import { useReactFlow } from "reactflow";
 import { CustomNode } from "../nodes";
+import _ from "lodash";
 
 type Props = {
   show: boolean;
@@ -19,8 +20,10 @@ export const NodesPanel = ({ show }: Props) => {
 
   const addNode = (nodeType: CustomNode) => {
     const lastNode = nodes.at(-1);
-    const lastNodeId = lastNode ? lastNode.id : "0";
-    const nextNodeId = String(+lastNodeId + 1);
+    // last node with type = nodeType
+    const lastSimilarNode = _.findLast(nodes, (node) => node.type === nodeType);
+    const lastSimilarNodeId = lastSimilarNode ? lastSimilarNode.id : `${nodeType}-0`;
+    const nextNodeNumericId = String(+lastSimilarNodeId.split("-")[1] + 1);
     const nextNodePosition = {
       x: (lastNode?.position.x || 0) + (lastNode?.width || 0) + 80,
       y: (lastNode?.position.y || 0) + (lastNode?.height || 0),
@@ -29,10 +32,10 @@ export const NodesPanel = ({ show }: Props) => {
     reactFlow.setNodes((oldNodes) => [
       ...oldNodes,
       {
-        id: nextNodeId,
+        id: `${nodeType}-${nextNodeNumericId}`,
         type: nodeType,
         position: nextNodePosition,
-        data: { type: nodeType, label: `${nodeType} ${nextNodeId}` },
+        data: { type: nodeType, label: `${nodeType} ${nextNodeNumericId}` },
       },
     ]);
   };
@@ -49,7 +52,7 @@ export const NodesPanel = ({ show }: Props) => {
       leaveTo="translate-x-full"
     >
       <div className="w-1/5 h-screen bg-white shadow-xl text-slate-800">
-        <div className="relative px-3 py-4 flex items-center">
+        <div className="relative px-3 py-6 flex items-center">
           <div className="mx-auto flex items-center gap-2">
             <Shapes size={20} />
             <h1 className="text-xl font-bold">Nodes</h1>

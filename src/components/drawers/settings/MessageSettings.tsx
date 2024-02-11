@@ -29,7 +29,7 @@ export const MessageSettings = ({ onBack, onNodeDataChange }: Props) => {
 
   return (
     <>
-      <div className="relative px-3 py-4 flex items-center">
+      <div className="relative px-3 py-6 flex items-center">
         <button className="absolute rounded-md p-1 hover:bg-gray-200" onClick={onBack}>
           <ChevronLeft size={28} absoluteStrokeWidth />
         </button>

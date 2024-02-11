@@ -1,10 +1,11 @@
 import { Transition } from "@headlessui/react";
-import { BadgePlus, Home, Save, Settings, Workflow } from "lucide-react";
+import { BadgePlus, Home, Settings, UploadCloud, Workflow } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import React from "react";
 
 const Header = () => {
   const location = useLocation();
+  const isCreatePage = !!location.pathname.match(/\/create/);
 
   return (
     <Transition
@@ -30,7 +31,7 @@ const Header = () => {
             <Home size={24} absoluteStrokeWidth />
           </NavLink>
           <NavLink
-            to="/create"
+            to={isCreatePage ? location.pathname : "/create"}
             title="Create a flow"
             className="p-2 hover:bg-gray-200 rounded-md mx-auto"
           >
@@ -48,10 +49,10 @@ const Header = () => {
           {location?.pathname.match(/\/create/) && (
             <button
               onClick={() => null}
-              title="Save flow"
+              title="Publish flow"
               className="p-2 hover:bg-gray-200 rounded-md mx-auto"
             >
-              <Save size={24} />
+              <UploadCloud size={24} />
             </button>
           )}
           <NavLink

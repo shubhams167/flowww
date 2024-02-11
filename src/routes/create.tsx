@@ -7,25 +7,51 @@ import ReactFlow, {
   addEdge,
   BackgroundVariant,
   Connection,
+  ReactFlowInstance,
+  useReactFlow,
 } from "reactflow";
-import { MessageData, nodeTypes } from "../components/nodes";
+import { CustomNodeData, nodeTypes } from "../components/nodes";
 import { NodesPanel, SettingsPanel } from "../components/drawers";
 import { addEndMarker } from "../utils";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import useLocalStorage from "../hooks/useLocaleStorage";
+import { ReactFlowState } from "../types";
 
 export const Create = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [nodes, setNodes, onNodesChange] = useNodesState<MessageData>([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<CustomNodeData>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<never>([]);
   const { flowId } = useParams();
-  const navigate = useNavigate();
-
   const uuid = useMemo(() => flowId ?? crypto.randomUUID(), [flowId]);
+  const [rfInstance, setRfInstance] = useState<ReactFlowInstance | null>(null);
+  const [flowState, setFlowState] = useLocalStorage<ReactFlowState>(uuid, null);
+  const { setViewport } = useReactFlow();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!flowId) navigate(`/create/${uuid}`);
   });
+
+  useEffect(() => {
+    if (rfInstance) {
+      const flow = rfInstance.toObject();
+      setFlowState((prev) => ({ ...prev, ...flow, uuid }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nodes, edges]);
+
+  useEffect(() => {
+    if (flowState) {
+      setNodes(flowState.nodes || []);
+      setEdges(flowState.edges || []);
+      if (flowState.viewport) {
+        const { x = 0, y = 0, zoom = 1 } = flowState.viewport;
+        setViewport({ x, y, zoom });
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const onConnect = useCallback(
     (params: Connection) => {
@@ -37,14 +63,24 @@ export const Create = () => {
       setEdges((eds) => addEdge(params, eds).map(addEndMarker));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [setEdges]
+    [edges, setEdges]
   );
 
   const selectedNode = nodes.find((node) => node.selected);
 
   return (
-    <>
-      <div className="w-4/5 h-screen">
+    <div className="relative flex w-full">
+      <div className="relative w-4/5 h-screen">
+        <input
+          id="flow-name"
+          onChange={(event) =>
+            setFlowState((prev) => ({ ...prev, uuid, name: event.target.value }))
+          }
+          size={20}
+          defaultValue={flowState?.name}
+          placeholder="Flow name"
+          className="absolute top-6 left-1/2 -translate-x-1/2 text-lg bg-white z-10 shadow-md outline outline-slate-300 focus:outline-2 focus:outline-slate-500 rounded-md py-2 px-3"
+        />
         <ReactFlow
           nodes={nodes}
           edges={edges}
@@ -52,6 +88,7 @@ export const Create = () => {
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
+          onInit={setRfInstance}
           fitView
         >
           <Controls fitViewOptions={{ duration: 300 }} />
@@ -61,6 +98,6 @@ export const Create = () => {
       </div>
       <SettingsPanel show={!!selectedNode} />
       <NodesPanel show={!selectedNode} />
-    </>
+    </div>
   );
 };
