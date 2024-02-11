@@ -6,7 +6,7 @@ export type MessageData = {
   text?: string;
 };
 
-export function Message({ data, selected }: NodeProps<MessageData>) {
+export function Message({ id, data, selected }: NodeProps<MessageData>) {
   return (
     <button
       className={`bg-white min-w-40 max-w-80 rounded-md transition-shadow duration-300 shadow-lg ${
@@ -24,8 +24,8 @@ export function Message({ data, selected }: NodeProps<MessageData>) {
           <Pencil size={16} className="text-gray-300 mx-auto scale-75" />
         )}
       </div>
-      <Handle type="target" position={Position.Left} id="target" />
-      <Handle type="source" position={Position.Right} id="source" />
+      <Handle type="target" position={Position.Left} id={`${id}-target`} />
+      <Handle type="source" position={Position.Right} id={`${id}-source`} />
     </button>
   );
 }

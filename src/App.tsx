@@ -24,8 +24,12 @@ export default function App() {
     (params: Connection) => {
       // do not connect same node
       if (params.source === params.target) return;
+      // do not allow more than one edge from same source
+      if (edges.some((edge) => edge.source === params.source)) return;
+
       setEdges((eds) => addEdge(params, eds).map(addEndMarker));
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [setEdges]
   );
 
@@ -50,8 +54,6 @@ export default function App() {
             <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
           </ReactFlow>
         </div>
-
-        {/* {selectedNode ? <SettingsPanel /> : <NodesPanel />} */}
         <SettingsPanel show={!!selectedNode} />
         <NodesPanel show={!selectedNode} />
       </div>
