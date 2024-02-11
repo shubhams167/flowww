@@ -47,7 +47,7 @@ export const NodesPanel = ({ show }: Props) => {
       leaveFrom="translate-x-0"
       leaveTo="translate-x-full"
     >
-      <div className="w-1/5 h-screen bg-white shadow-xl">
+      <div className="w-1/5 h-screen bg-white shadow-xl text-slate-800">
         <div className="relative px-3 py-4 flex items-center">
           <div className="mx-auto flex items-center gap-2">
             <Shapes size={20} />
