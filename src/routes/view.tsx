@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { getFlowsFromLocalStorage } from "../utils";
+import { getFlowsFromLocalStorage } from "../lib/utils";
 import { Link } from "react-router-dom";
 import { BadgePlus, Cloud, CloudOff, SquarePen } from "lucide-react";
 

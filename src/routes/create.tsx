@@ -12,11 +12,11 @@ import ReactFlow, {
 } from "reactflow";
 import { CustomNodeData, nodeTypes } from "../components/nodes";
 import { NodesPanel, SettingsPanel } from "../components/drawers";
-import { addEndMarker } from "../utils";
+import { addEndMarker } from "../lib/utils";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useLocalStorage from "../hooks/useLocaleStorage";
-import { ReactFlowState } from "../types";
+import { ReactFlowState } from "../lib/types";
 
 export const Create = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
