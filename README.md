@@ -1,3 +1,7 @@
+# Flowww
+
+A creative flow builder built on top of [React](https://react.dev), [React Flow](https://reactflow.dev) and [tailwindcss](https://tailwindcss.com).
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
