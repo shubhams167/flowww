@@ -1,5 +1,5 @@
 import { Transition } from "@headlessui/react";
-import { BadgePlus, Home, Settings, UploadCloud, Workflow } from "lucide-react";
+import { BadgePlus, Home, Settings, Workflow } from "lucide-react";
 import { NavLink, useLocation } from "react-router-dom";
 import React from "react";
 
@@ -46,15 +46,6 @@ const Header = () => {
           </NavLink>
         </div>
         <div className="flex flex-col gap-4">
-          {location?.pathname.match(/\/create/) && (
-            <button
-              onClick={() => null}
-              title="Publish flow"
-              className="p-2 hover:bg-gray-200 rounded-md mx-auto"
-            >
-              <UploadCloud size={24} />
-            </button>
-          )}
           <NavLink
             to="/settings"
             title="Settings"

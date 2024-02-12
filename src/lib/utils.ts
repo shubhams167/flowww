@@ -13,6 +13,12 @@ export const addEndMarker = (edge: Edge) => ({
   },
 });
 
+export const isValidUUID = (str: string) => {
+  const regexExp =
+    /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+  return regexExp.test(str);
+};
+
 export const getFlowsFromLocalStorage = () => {
   if (typeof window === "undefined") {
     return [];
@@ -21,8 +27,10 @@ export const getFlowsFromLocalStorage = () => {
   const rawFlows = { ...window.localStorage };
   const flows: ReactFlowState[] = [];
 
-  for (const uuid in rawFlows) {
+  for (const key in rawFlows) {
     try {
+      if (!isValidUUID(key)) continue;
+      const uuid = key;
       const flow = JSON.parse(rawFlows[uuid]) as ReactFlowState;
       flows.push(flow);
     } catch (err) {}
@@ -46,4 +54,13 @@ export const getNodeObject = (
     position,
     data: { type: type, label: `${type} ${nextNodeNumericId}` },
   };
+};
+
+// n nodes with n-1 edges
+export const isValidLinearFlow = (nodes: Node<any, string | undefined>[], edges: Edge[]) => {
+  let numNodesWithIncomingEdge = 0;
+  nodes.forEach((node) => {
+    if (edges.some((edge) => edge.target === node.id)) numNodesWithIncomingEdge++;
+  });
+  return numNodesWithIncomingEdge === nodes.length - 1;
 };

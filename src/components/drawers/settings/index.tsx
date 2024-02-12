@@ -12,8 +12,7 @@ type Props = {
 
 type HandleNodeChangeData = Partial<CustomNodeData & { selected: boolean }>;
 
-/** Component to show settings for a selected node */
-export const SettingsPanel = ({ show }: Props) => {
+export const SettingsDrawer = ({ show }: Props) => {
   const reactFlow = useReactFlow();
   const nodes = reactFlow.getNodes();
   const selectedNode = nodes.find((node) => node.selected);
@@ -66,7 +65,7 @@ export const SettingsPanel = ({ show }: Props) => {
       leaveFrom="translate-x-0"
       leaveTo="translate-x-full"
     >
-      <div className="w-1/5 h-screen bg-white shadow-xl">
+      <div className="absolute w-2/12 right-0 h-screen bg-white shadow-xl">
         {selectedNodeData.type === "Message" && (
           <MessageSettings
             onBack={onBack}

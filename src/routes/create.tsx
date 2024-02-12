@@ -1,5 +1,4 @@
 import ReactFlow, {
-  MiniMap,
   Controls,
   Background,
   useNodesState,
@@ -11,12 +10,14 @@ import ReactFlow, {
   useReactFlow,
 } from "reactflow";
 import { CustomNodeType, CustomNodeData, nodeTypes } from "../components/nodes";
-import { NodesPanel, SettingsPanel } from "../components/drawers";
-import { addEndMarker, getNodeObject } from "../lib/utils";
+import { NodesDrawer, SettingsDrawer } from "../components/drawers";
+import { addEndMarker, getNodeObject, isValidLinearFlow } from "../lib/utils";
 import { DragEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useLocalStorage from "../hooks/useLocaleStorage";
 import { ReactFlowState } from "../lib/types";
+import { Trash2, UploadCloud } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 export const Create = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -96,11 +97,26 @@ export const Create = () => {
     [rfInstance, nodes, setNodes]
   );
 
+  const onPublish = () => {
+    if (isValidLinearFlow(nodes, edges)) {
+      return toast.success("Published");
+    }
+    toast.error("Invalid flow");
+  };
+
+  const onDelete = () => {
+    if (typeof window === "undefined") return;
+
+    window.localStorage.removeItem(uuid);
+    toast.success("Deleted");
+    navigate("/view");
+  };
+
   const selectedNode = nodes.find((node) => node.selected);
 
   return (
-    <div className="relative flex w-full">
-      <div className="relative w-4/5 h-screen">
+    <div className="relative flex w-full h-screen">
+      <div className="absolute top-6 left-10 z-10 flex gap-4">
         <input
           id="flow-name"
           onChange={(event) =>
@@ -109,26 +125,40 @@ export const Create = () => {
           size={20}
           defaultValue={flowState?.name}
           placeholder="Flow name"
-          className="absolute top-6 left-1/2 -translate-x-1/2 text-lg bg-white z-10 shadow-md outline outline-slate-300 focus:outline-2 focus:outline-slate-500 rounded-md py-2 px-3"
+          autoComplete="off"
+          className="py-2 px-3 text-lg bg-white shadow-md rounded-md outline outline-slate-300 focus:outline-2 focus:outline-slate-500"
         />
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onInit={setRfInstance}
-          onDrop={onDrop}
-          onDragOver={onDragOver}
-          fitView
+        <button
+          onClick={onPublish}
+          title="Publish"
+          className="p-2 bg-white text-blue-600 hover:bg-gray-200 shadow-md rounded-md outline outline-slate-300 focus:outline-2 focus:outline-slate-500"
         >
-          <Controls fitViewOptions={{ duration: 300 }} />
-          <MiniMap />
-          <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
-        </ReactFlow>
+          <UploadCloud size={24} />
+        </button>
+        <button
+          onClick={onDelete}
+          title="Delete"
+          className="p-2 bg-white text-red-600 hover:bg-gray-200 shadow-md rounded-md outline outline-slate-300 focus:outline-2 focus:outline-slate-500"
+        >
+          <Trash2 size={24} />
+        </button>
       </div>
-      {selectedNode ? <SettingsPanel show={true} /> : <NodesPanel show={true} />}
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        onInit={setRfInstance}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
+        fitView
+      >
+        <Controls fitViewOptions={{ duration: 300 }} />
+        <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
+      </ReactFlow>
+      {selectedNode ? <SettingsDrawer show={true} /> : <NodesDrawer show={true} />}
     </div>
   );
 };

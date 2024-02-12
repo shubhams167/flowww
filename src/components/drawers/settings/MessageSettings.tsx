@@ -67,7 +67,7 @@ export const MessageSettings = ({ onBack, onDelete, onNodeDataChange }: Props) =
       </div>
       <div className="px-3 py-6">
         <button
-          className="text-white bg-red-500 p-2 flex gap-2 items-center rounded-md w-full justify-center hover:bg-red-700 transition-colors duration-200"
+          className="text-white bg-red-600 p-2 flex gap-2 items-center rounded-md w-full justify-center hover:bg-red-700 transition-colors duration-200"
           onClick={onDelete}
         >
           <Trash2 size={20} />

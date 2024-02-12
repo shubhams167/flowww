@@ -1,17 +1,44 @@
 import { Transition } from "@headlessui/react";
-import { AudioLines, Image, MessageSquareText, Plus, Shapes } from "lucide-react";
+import {
+  AudioLines,
+  ImageIcon,
+  MessageSquareText,
+  Shapes,
+  SidebarClose,
+  SidebarOpen,
+} from "lucide-react";
 import React, { DragEvent, useEffect } from "react";
 import { useReactFlow } from "reactflow";
 import { CustomNodeType } from "../nodes";
 import { getNodeObject } from "../../lib/utils";
+import useLocalStorage from "../../hooks/useLocaleStorage";
 
 type Props = {
   show: boolean;
 };
 
-export const NodesPanel = ({ show }: Props) => {
+const nodeButtons = [
+  {
+    name: "Message",
+    styles: "bg-message hover:bg-message-darkest",
+    icon: <MessageSquareText size={20} />,
+  },
+  {
+    name: "Image",
+    styles: "bg-image hover:bg-image-darkest",
+    icon: <ImageIcon size={20} />,
+  },
+  {
+    name: "Audio",
+    styles: "bg-audio hover:bg-audio-darkest",
+    icon: <AudioLines size={20} />,
+  },
+] as const;
+
+export const NodesDrawer = ({ show }: Props) => {
   const reactFlow = useReactFlow();
   const nodes = reactFlow.getNodes();
+  const [showExpanded, setShowExpanded] = useLocalStorage("showExpandedNodesDrawer", false);
 
   useEffect(() => {
     reactFlow.fitView({ duration: 300 });
@@ -39,49 +66,48 @@ export const NodesPanel = ({ show }: Props) => {
       as={React.Fragment}
       appear={true}
       show={show}
-      enter="transition-transform duration-300"
+      enter="transition-all duration-300"
       enterFrom="translate-x-full"
       enterTo="translate-x-0"
       leaveFrom="translate-x-0"
       leaveTo="translate-x-full"
     >
-      <div className="w-1/5 h-screen bg-white shadow-xl text-slate-800">
+      <div
+        className={`absolute right-0 h-screen flex flex-col bg-white shadow-xl text-slate-800 transition-all duration-200 ${
+          showExpanded ? "w-2/12" : "w-[72px]"
+        }`}
+      >
         <div className="relative px-3 py-6 flex items-center">
           <div className="mx-auto flex items-center gap-2">
-            <Shapes size={20} />
-            <h1 className="text-xl font-bold">Nodes</h1>
+            <Shapes size={24} />
+            {showExpanded && <h1 className="leading-6 text-xl font-bold">Nodes</h1>}
           </div>
         </div>
-        <div className="flex flex-col gap-2 p-3">
+        <div className="flex flex-col flex-grow gap-2 p-3">
+          {nodeButtons.map((nodeButton) => (
+            <button
+              key={nodeButton.name}
+              className={`text-white rounded-md p-3 flex items-center justify-center gap-2 transition-colors duration-200 cursor-grab active:cursor-grabbing ${nodeButton.styles}`}
+              onClick={() => addNode(nodeButton.name)}
+              onDragStart={(event) => onDragStart(event, nodeButton.name)}
+              title={nodeButton.name}
+              draggable
+            >
+              {nodeButton.icon}
+              {showExpanded && (
+                <span className="font-semibold leading-5 text-lg flex-grow text-left">
+                  {nodeButton.name}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+        <div className="px-3 py-6 flex justify-end">
           <button
-            className="text-white bg-message rounded-md p-4 flex items-center gap-2 hover:bg-message-darkest transition-colors duration-200 cursor-grab active:cursor-grabbing"
-            onClick={() => addNode("Message")}
-            onDragStart={(event) => onDragStart(event, "Message")}
-            draggable
+            className="text-slate-700 p-3 rounded-md hover:bg-slate-200 transition-colors duration-200"
+            onClick={() => setShowExpanded((prev) => !prev)}
           >
-            <MessageSquareText size={20} />
-            <span className="font-semibold text-lg flex-grow text-left">Message</span>
-            <Plus size={24} absoluteStrokeWidth />
-          </button>
-          <button
-            className="text-white bg-image rounded-md p-4 flex items-center gap-2 hover:bg-image-darkest transition-colors duration-200 cursor-grab active:cursor-grabbing"
-            onClick={() => addNode("Image")}
-            onDragStart={(event) => onDragStart(event, "Image")}
-            draggable
-          >
-            <Image size={20} />
-            <span className="font-semibold text-lg flex-grow text-left">Image</span>
-            <Plus size={24} absoluteStrokeWidth />
-          </button>
-          <button
-            className="text-white bg-audio rounded-md p-4 flex items-center gap-2 hover:bg-audio-darkest transition-colors duration-200 cursor-grab active:cursor-grabbing"
-            onClick={() => addNode("Audio")}
-            onDragStart={(event) => onDragStart(event, "Audio")}
-            draggable
-          >
-            <AudioLines size={20} />
-            <span className="font-semibold text-lg flex-grow text-left">Audio</span>
-            <Plus size={24} absoluteStrokeWidth />
+            {showExpanded ? <SidebarOpen size={20} /> : <SidebarClose size={20} />}
           </button>
         </div>
       </div>
