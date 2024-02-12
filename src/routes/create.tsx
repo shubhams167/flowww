@@ -96,8 +96,7 @@ export const Create = () => {
           <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
         </ReactFlow>
       </div>
-      <SettingsPanel show={!!selectedNode} />
-      <NodesPanel show={!selectedNode} />
+      {selectedNode ? <SettingsPanel show={true} /> : <NodesPanel show={true} />}
     </div>
   );
 };
