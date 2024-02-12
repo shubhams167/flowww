@@ -1,22 +1,20 @@
-import { useMemo } from "react";
-import { getFlowsFromLocalStorage } from "../lib/utils";
-import { Link } from "react-router-dom";
 import { BadgePlus, Cloud, CloudOff, SquarePen } from "lucide-react";
+import { useMemo } from "react";
+import { Link } from "react-router-dom";
+import { getFlowsFromLocalStorage } from "../lib/utils";
 
 export const View = () => {
   const flows = useMemo(() => getFlowsFromLocalStorage(), []);
 
   return (
     <div className="w-full p-8">
-      <h1 className="mx-auto mb-10 text-3xl text-slate-800 font-serif tracking-normal">
-        Your flows
-      </h1>
+      <h1 className="mx-auto mb-10 font-serif text-3xl tracking-normal text-slate-800">Your flows</h1>
       <div className="flex flex-col gap-4">
         {flows.map((flow, idx) => (
           <Link
             key={flow?.uuid || idx}
             to={`/create/${flow?.uuid}`}
-            className="flex p-4 border-2 border-slate-500 hover:bg-gray-100 hover:border-slate-800 transition-colors duration-200 rounded-md items-center"
+            className="flex items-center rounded-md border-2 border-slate-500 p-4 transition-colors duration-200 hover:border-slate-800 hover:bg-gray-100"
           >
             <div className="flex-grow">
               <h2 className="text-lg font-bold">{flow?.name || "Untitled Flow"}</h2>
@@ -34,14 +32,14 @@ export const View = () => {
         ))}
       </div>
       {flows.length === 0 && (
-        <div className="text-center flex flex-col justify-center items-center gap-6 mt-20">
+        <div className="mt-20 flex flex-col items-center justify-center gap-6 text-center">
           <h2 className="text-slate-600">Oops! Looks like you don't have any flows.</h2>
           <Link
             to="/create"
-            className="text-white bg-slate-700 rounded-md px-6 py-4 flex justify-center items-center gap-3 hover:bg-slate-900 transition-colors duration-200"
+            className="flex items-center justify-center gap-3 rounded-md bg-slate-700 px-6 py-4 text-white transition-colors duration-200 hover:bg-slate-900"
           >
             <BadgePlus size={20} absoluteStrokeWidth />
-            <span className="font-semibold text-2xl text-left">Create a flow</span>
+            <span className="text-left text-2xl font-semibold">Create a flow</span>
           </Link>
         </div>
       )}

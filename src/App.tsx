@@ -1,7 +1,7 @@
+import { Toaster } from "react-hot-toast";
+import { RouterProvider } from "react-router-dom";
 import { ReactFlowProvider } from "reactflow";
 import { router } from "./routes";
-import { RouterProvider } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
 
 export default function App() {
   return (

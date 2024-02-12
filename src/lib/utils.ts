@@ -1,7 +1,7 @@
+import _ from "lodash";
 import { Edge, MarkerType, Node, XYPosition } from "reactflow";
 import { CustomNodeType } from "../components/nodes";
 import { ReactFlowState } from "./types";
-import _ from "lodash";
 
 export const addEndMarker = (edge: Edge) => ({
   ...edge,
@@ -14,8 +14,7 @@ export const addEndMarker = (edge: Edge) => ({
 });
 
 export const isValidUUID = (str: string) => {
-  const regexExp =
-    /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
+  const regexExp = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
   return regexExp.test(str);
 };
 
@@ -38,11 +37,7 @@ export const getFlowsFromLocalStorage = () => {
   return flows;
 };
 
-export const getNodeObject = (
-  nodes: Node<any, string | undefined>[],
-  type: CustomNodeType,
-  position: XYPosition
-) => {
+export const getNodeObject = (nodes: Node<any, string | undefined>[], type: CustomNodeType, position: XYPosition) => {
   // last node with type = nodeType
   const lastSimilarNode = _.findLast(nodes, (node) => node.type === type);
   const lastSimilarNodeId = lastSimilarNode ? lastSimilarNode.id : `${type}-0`;

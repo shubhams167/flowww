@@ -29,17 +29,17 @@ export const ImageSettings = ({ onBack, onDelete, onNodeDataChange }: Props) => 
   };
 
   return (
-    <div className="h-full flex flex-col">
-      <div className="relative px-3 py-6 flex items-center">
+    <div className="flex h-full flex-col">
+      <div className="relative flex items-center px-3 py-6">
         <button className="absolute rounded-md p-1 hover:bg-gray-200" onClick={onBack}>
           <ChevronLeft size={28} absoluteStrokeWidth />
         </button>
-        <div className="mx-auto flex items-center text-image gap-2">
+        <div className="mx-auto flex items-center gap-2 text-image">
           <ImageIcon size={20} />
           <h1 className="text-xl font-bold">{selectedNode.type}</h1>
         </div>
       </div>
-      <div className="flex flex-col flex-grow gap-2 p-3">
+      <div className="flex flex-grow flex-col gap-2 p-3">
         <label htmlFor="label" className="text-gray-600">
           Label
         </label>
@@ -50,7 +50,7 @@ export const ImageSettings = ({ onBack, onDelete, onNodeDataChange }: Props) => 
           size={10}
           defaultValue={selectedNode.data.label}
           placeholder="Enter image label"
-          className="outline outline-gray-300 focus:outline-2 focus:outline-gray-500 rounded-md py-1 px-3"
+          className="rounded-md px-3 py-1 outline outline-gray-300 focus:outline-2 focus:outline-gray-500"
         />
         <label htmlFor="image" className="text-gray-600">
           Source URL
@@ -62,12 +62,12 @@ export const ImageSettings = ({ onBack, onDelete, onNodeDataChange }: Props) => 
           onChange={onSourceChange}
           defaultValue={selectedNode.data.src}
           placeholder="Enter image url"
-          className="outline outline-gray-300 focus:outline-2 focus:outline-gray-500 rounded-md py-2 px-3"
+          className="rounded-md px-3 py-2 outline outline-gray-300 focus:outline-2 focus:outline-gray-500"
         ></textarea>
       </div>
       <div className="px-3 py-6">
         <button
-          className="text-white bg-red-600 p-2 flex gap-2 items-center rounded-md w-full justify-center hover:bg-red-700 transition-colors duration-200"
+          className="flex w-full items-center justify-center gap-2 rounded-md bg-red-600 p-2 text-white transition-colors duration-200 hover:bg-red-700"
           onClick={onDelete}
         >
           <Trash2 size={20} />

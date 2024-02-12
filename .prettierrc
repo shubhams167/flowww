@@ -1,0 +1,9 @@
+{
+  "printWidth": 120,
+  "quoteProps": "consistent",
+  "singleQuote": false,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "useTabs": false,
+  "plugins": ["prettier-plugin-organize-imports", "prettier-plugin-tailwindcss"]
+}

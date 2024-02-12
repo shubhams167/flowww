@@ -1,7 +1,7 @@
 import { Transition } from "@headlessui/react";
 import { BadgePlus, Home, Settings, Workflow } from "lucide-react";
-import { NavLink, useLocation } from "react-router-dom";
 import React from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
 const Header = () => {
   const location = useLocation();
@@ -18,39 +18,27 @@ const Header = () => {
       leaveFrom="translate-x-0"
       leaveTo="-translate-x-full"
     >
-      <header className="px-4 py-6 h-screen shadow-lg flex flex-col gap-10 text-slate-800">
-        <NavLink
-          to="/"
-          aria-label="Flowww"
-          className="font-serif text-5xl font-bold tracking-wider text-center"
-        >
+      <header className="flex h-screen flex-col gap-10 px-4 py-6 text-slate-800 shadow-lg">
+        <NavLink to="/" aria-label="Flowww" className="text-center font-serif text-5xl font-bold tracking-wider">
           F
         </NavLink>
-        <div className="flex flex-col gap-4 flex-grow">
-          <NavLink to="/" title="Home" className="p-2 hover:bg-gray-200 rounded-md mx-auto">
+        <div className="flex flex-grow flex-col gap-4">
+          <NavLink to="/" title="Home" className="mx-auto rounded-md p-2 hover:bg-gray-200">
             <Home size={24} absoluteStrokeWidth />
           </NavLink>
           <NavLink
             to={isCreatePage ? location.pathname : "/create"}
             title="Create a flow"
-            className="p-2 hover:bg-gray-200 rounded-md mx-auto"
+            className="mx-auto rounded-md p-2 hover:bg-gray-200"
           >
             <BadgePlus size={24} absoluteStrokeWidth />
           </NavLink>
-          <NavLink
-            to="/view"
-            title="See your flows"
-            className="p-2 hover:bg-gray-200 rounded-md mx-auto"
-          >
+          <NavLink to="/view" title="See your flows" className="mx-auto rounded-md p-2 hover:bg-gray-200">
             <Workflow size={24} absoluteStrokeWidth />
           </NavLink>
         </div>
         <div className="flex flex-col gap-4">
-          <NavLink
-            to="/settings"
-            title="Settings"
-            className="p-2 hover:bg-gray-200 rounded-md mx-auto"
-          >
+          <NavLink to="/settings" title="Settings" className="mx-auto rounded-md p-2 hover:bg-gray-200">
             <Settings size={24} />
           </NavLink>
         </div>

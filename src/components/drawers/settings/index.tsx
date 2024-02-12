@@ -2,9 +2,9 @@ import { Transition } from "@headlessui/react";
 import React from "react";
 import { useReactFlow } from "reactflow";
 import { CustomNodeData } from "../../nodes";
-import { MessageSettings } from "./MessageSettings";
-import { ImageSettings } from "./ImageSettings";
 import { AudioSettings } from "./AudioSettings";
+import { ImageSettings } from "./ImageSettings";
+import { MessageSettings } from "./MessageSettings";
 
 type Props = {
   show: boolean;
@@ -65,27 +65,15 @@ export const SettingsDrawer = ({ show }: Props) => {
       leaveFrom="translate-x-0"
       leaveTo="translate-x-full"
     >
-      <div className="absolute w-2/12 right-0 h-screen bg-white shadow-xl">
+      <div className="absolute right-0 h-screen w-2/12 bg-white shadow-xl">
         {selectedNodeData.type === "Message" && (
-          <MessageSettings
-            onBack={onBack}
-            onDelete={onDelete}
-            onNodeDataChange={handleNodeDataChange}
-          />
+          <MessageSettings onBack={onBack} onDelete={onDelete} onNodeDataChange={handleNodeDataChange} />
         )}
         {selectedNodeData.type === "Image" && (
-          <ImageSettings
-            onBack={onBack}
-            onDelete={onDelete}
-            onNodeDataChange={handleNodeDataChange}
-          />
+          <ImageSettings onBack={onBack} onDelete={onDelete} onNodeDataChange={handleNodeDataChange} />
         )}
         {selectedNodeData.type === "Audio" && (
-          <AudioSettings
-            onBack={onBack}
-            onDelete={onDelete}
-            onNodeDataChange={handleNodeDataChange}
-          />
+          <AudioSettings onBack={onBack} onDelete={onDelete} onNodeDataChange={handleNodeDataChange} />
         )}
       </div>
     </Transition>

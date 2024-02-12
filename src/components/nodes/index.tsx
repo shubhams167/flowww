@@ -1,10 +1,10 @@
-import { Message, MessageData } from "./Message";
-import { Image, ImageData } from "./Image";
 import { Audio, AudioData } from "./Audio";
+import { Image, ImageData } from "./Image";
+import { Message, MessageData } from "./Message";
 
-export * from "./Message";
-export * from "./Image";
 export * from "./Audio";
+export * from "./Image";
+export * from "./Message";
 
 export const nodeTypes = { Message, Image, Audio } as const;
 

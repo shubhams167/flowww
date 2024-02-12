@@ -1,19 +1,14 @@
-import {
-  Route,
-  createBrowserRouter,
-  createHashRouter,
-  createRoutesFromElements,
-} from "react-router-dom";
+import { createBrowserRouter, createHashRouter, createRoutesFromElements, Route } from "react-router-dom";
 import { Layout } from "../components/layout";
-import { Home } from "./home";
 import { Create } from "./create";
-import { View } from "./view";
+import { Home } from "./home";
 import { Settings } from "./settings";
+import { View } from "./view";
 
-export * from "./home";
 export * from "./create";
-export * from "./view";
+export * from "./home";
 export * from "./settings";
+export * from "./view";
 
 const routes = createRoutesFromElements(
   <Route element={<Layout />}>
@@ -25,6 +20,4 @@ const routes = createRoutesFromElements(
 );
 
 export const router =
-  process.env.REACT_APP_USE_HASH_ROUTER === "true"
-    ? createHashRouter(routes)
-    : createBrowserRouter(routes);
+  process.env.REACT_APP_USE_HASH_ROUTER === "true" ? createHashRouter(routes) : createBrowserRouter(routes);

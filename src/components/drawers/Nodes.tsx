@@ -1,17 +1,10 @@
 import { Transition } from "@headlessui/react";
-import {
-  AudioLines,
-  ImageIcon,
-  MessageSquareText,
-  Shapes,
-  SidebarClose,
-  SidebarOpen,
-} from "lucide-react";
+import { AudioLines, ImageIcon, MessageSquareText, Shapes, SidebarClose, SidebarOpen } from "lucide-react";
 import React, { DragEvent, useEffect } from "react";
 import { useReactFlow } from "reactflow";
-import { CustomNodeType } from "../nodes";
-import { getNodeObject } from "../../lib/utils";
 import useLocalStorage from "../../hooks/useLocaleStorage";
+import { getNodeObject } from "../../lib/utils";
+import { CustomNodeType } from "../nodes";
 
 type Props = {
   show: boolean;
@@ -73,21 +66,21 @@ export const NodesDrawer = ({ show }: Props) => {
       leaveTo="translate-x-full"
     >
       <div
-        className={`absolute right-0 h-screen flex flex-col bg-white shadow-xl text-slate-800 transition-all duration-200 ${
+        className={`absolute right-0 flex h-screen flex-col bg-white text-slate-800 shadow-xl transition-all duration-200 ${
           showExpanded ? "w-2/12" : "w-[72px]"
         }`}
       >
-        <div className="relative px-3 py-6 flex items-center">
+        <div className="relative flex items-center px-3 py-6">
           <div className="mx-auto flex items-center gap-2">
             <Shapes size={24} />
-            {showExpanded && <h1 className="leading-6 text-xl font-bold">Nodes</h1>}
+            {showExpanded && <h1 className="text-xl font-bold leading-6">Nodes</h1>}
           </div>
         </div>
-        <div className="flex flex-col flex-grow gap-2 p-3">
+        <div className="flex flex-grow flex-col gap-2 p-3">
           {nodeButtons.map((nodeButton) => (
             <button
               key={nodeButton.name}
-              className={`text-white rounded-md p-3 flex items-center justify-center gap-2 transition-colors duration-200 cursor-grab active:cursor-grabbing ${nodeButton.styles}`}
+              className={`flex cursor-grab items-center justify-center gap-2 rounded-md p-3 text-white transition-colors duration-200 active:cursor-grabbing ${nodeButton.styles}`}
               onClick={() => addNode(nodeButton.name)}
               onDragStart={(event) => onDragStart(event, nodeButton.name)}
               title={nodeButton.name}
@@ -95,16 +88,14 @@ export const NodesDrawer = ({ show }: Props) => {
             >
               {nodeButton.icon}
               {showExpanded && (
-                <span className="font-semibold leading-5 text-lg flex-grow text-left">
-                  {nodeButton.name}
-                </span>
+                <span className="flex-grow text-left text-lg font-semibold leading-5">{nodeButton.name}</span>
               )}
             </button>
           ))}
         </div>
-        <div className="px-3 py-6 flex justify-end">
+        <div className="flex justify-end px-3 py-6">
           <button
-            className="text-slate-700 p-3 rounded-md hover:bg-slate-200 transition-colors duration-200"
+            className="rounded-md p-3 text-slate-700 transition-colors duration-200 hover:bg-slate-200"
             onClick={() => setShowExpanded((prev) => !prev)}
           >
             {showExpanded ? <SidebarOpen size={20} /> : <SidebarClose size={20} />}

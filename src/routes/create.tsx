@@ -1,23 +1,23 @@
+import { Trash2, UploadCloud } from "lucide-react";
+import { DragEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { toast } from "react-hot-toast";
+import { useNavigate, useParams } from "react-router-dom";
 import ReactFlow, {
-  Controls,
-  Background,
-  useNodesState,
-  useEdgesState,
   addEdge,
+  Background,
   BackgroundVariant,
   Connection,
+  Controls,
   ReactFlowInstance,
+  useEdgesState,
+  useNodesState,
   useReactFlow,
 } from "reactflow";
-import { CustomNodeType, CustomNodeData, nodeTypes } from "../components/nodes";
 import { NodesDrawer, SettingsDrawer } from "../components/drawers";
-import { addEndMarker, getNodeObject, isValidLinearFlow } from "../lib/utils";
-import { DragEvent, useCallback, useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { CustomNodeData, CustomNodeType, nodeTypes } from "../components/nodes";
 import useLocalStorage from "../hooks/useLocaleStorage";
 import { ReactFlowState } from "../lib/types";
-import { Trash2, UploadCloud } from "lucide-react";
-import { toast } from "react-hot-toast";
+import { addEndMarker, getNodeObject, isValidLinearFlow } from "../lib/utils";
 
 export const Create = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -115,30 +115,28 @@ export const Create = () => {
   const selectedNode = nodes.find((node) => node.selected);
 
   return (
-    <div className="relative flex w-full h-screen">
-      <div className="absolute top-6 left-10 z-10 flex gap-4">
+    <div className="relative flex h-screen w-full">
+      <div className="absolute left-10 top-6 z-10 flex gap-4">
         <input
           id="flow-name"
-          onChange={(event) =>
-            setFlowState((prev) => ({ ...prev, uuid, name: event.target.value }))
-          }
+          onChange={(event) => setFlowState((prev) => ({ ...prev, uuid, name: event.target.value }))}
           size={20}
           defaultValue={flowState?.name}
           placeholder="Flow name"
           autoComplete="off"
-          className="py-2 px-3 text-lg bg-white shadow-md rounded-md outline outline-slate-300 focus:outline-2 focus:outline-slate-500"
+          className="rounded-md bg-white px-3 py-2 text-lg shadow-md outline outline-slate-300 focus:outline-2 focus:outline-slate-500"
         />
         <button
           onClick={onPublish}
           title="Publish"
-          className="p-2 bg-white text-blue-600 hover:bg-gray-200 shadow-md rounded-md outline outline-slate-300 focus:outline-2 focus:outline-slate-500"
+          className="rounded-md bg-white p-2 text-blue-600 shadow-md outline outline-slate-300 hover:bg-gray-200 focus:outline-2 focus:outline-slate-500"
         >
           <UploadCloud size={24} />
         </button>
         <button
           onClick={onDelete}
           title="Delete"
-          className="p-2 bg-white text-red-600 hover:bg-gray-200 shadow-md rounded-md outline outline-slate-300 focus:outline-2 focus:outline-slate-500"
+          className="rounded-md bg-white p-2 text-red-600 shadow-md outline outline-slate-300 hover:bg-gray-200 focus:outline-2 focus:outline-slate-500"
         >
           <Trash2 size={24} />
         </button>
