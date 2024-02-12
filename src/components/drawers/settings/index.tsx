@@ -48,6 +48,13 @@ export const SettingsPanel = ({ show }: Props) => {
     handleNodeDataChange({ selected: false });
   };
 
+  const onDelete = () => {
+    reactFlow.setEdges((edges) =>
+      edges.filter((edge) => edge.source !== selectedNode.id && edge.target !== selectedNode.id)
+    );
+    reactFlow.setNodes((nodes) => nodes.filter((node) => node.id !== selectedNode.id));
+  };
+
   return (
     <Transition
       as={React.Fragment}
@@ -61,13 +68,25 @@ export const SettingsPanel = ({ show }: Props) => {
     >
       <div className="w-1/5 h-screen bg-white shadow-xl">
         {selectedNodeData.type === "Message" && (
-          <MessageSettings onBack={onBack} onNodeDataChange={handleNodeDataChange} />
+          <MessageSettings
+            onBack={onBack}
+            onDelete={onDelete}
+            onNodeDataChange={handleNodeDataChange}
+          />
         )}
         {selectedNodeData.type === "Image" && (
-          <ImageSettings onBack={onBack} onNodeDataChange={handleNodeDataChange} />
+          <ImageSettings
+            onBack={onBack}
+            onDelete={onDelete}
+            onNodeDataChange={handleNodeDataChange}
+          />
         )}
         {selectedNodeData.type === "Audio" && (
-          <AudioSettings onBack={onBack} onNodeDataChange={handleNodeDataChange} />
+          <AudioSettings
+            onBack={onBack}
+            onDelete={onDelete}
+            onNodeDataChange={handleNodeDataChange}
+          />
         )}
       </div>
     </Transition>

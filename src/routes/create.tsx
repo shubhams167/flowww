@@ -10,10 +10,10 @@ import ReactFlow, {
   ReactFlowInstance,
   useReactFlow,
 } from "reactflow";
-import { CustomNodeData, nodeTypes } from "../components/nodes";
+import { CustomNodeType, CustomNodeData, nodeTypes } from "../components/nodes";
 import { NodesPanel, SettingsPanel } from "../components/drawers";
-import { addEndMarker } from "../lib/utils";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { addEndMarker, getNodeObject } from "../lib/utils";
+import { DragEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useLocalStorage from "../hooks/useLocaleStorage";
 import { ReactFlowState } from "../lib/types";
@@ -66,6 +66,36 @@ export const Create = () => {
     [edges, setEdges]
   );
 
+  const onDragOver = useCallback((event: DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "move";
+  }, []);
+
+  const onDrop = useCallback(
+    (event: DragEvent<HTMLDivElement>) => {
+      event.preventDefault();
+
+      const type = event.dataTransfer.getData("application/reactflow") as CustomNodeType;
+
+      // check if the dropped element is valid
+      if (typeof type === "undefined" || !type) {
+        return;
+      }
+
+      if (!rfInstance) return;
+
+      const position = rfInstance.screenToFlowPosition({
+        x: event.clientX,
+        y: event.clientY,
+      });
+
+      const newNode = getNodeObject(nodes, type, position);
+
+      setNodes((nds) => nds.concat(newNode));
+    },
+    [rfInstance, nodes, setNodes]
+  );
+
   const selectedNode = nodes.find((node) => node.selected);
 
   return (
@@ -89,6 +119,8 @@ export const Create = () => {
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           onInit={setRfInstance}
+          onDrop={onDrop}
+          onDragOver={onDragOver}
           fitView
         >
           <Controls fitViewOptions={{ duration: 300 }} />

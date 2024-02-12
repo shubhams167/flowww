@@ -1,9 +1,9 @@
 import { Transition } from "@headlessui/react";
 import { AudioLines, Image, MessageSquareText, Plus, Shapes } from "lucide-react";
-import React, { useEffect } from "react";
+import React, { DragEvent, useEffect } from "react";
 import { useReactFlow } from "reactflow";
-import { CustomNode } from "../nodes";
-import _ from "lodash";
+import { CustomNodeType } from "../nodes";
+import { getNodeObject } from "../../lib/utils";
 
 type Props = {
   show: boolean;
@@ -18,26 +18,20 @@ export const NodesPanel = ({ show }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodes.length]);
 
-  const addNode = (nodeType: CustomNode) => {
+  const addNode = (nodeType: CustomNodeType) => {
     const lastNode = nodes.at(-1);
-    // last node with type = nodeType
-    const lastSimilarNode = _.findLast(nodes, (node) => node.type === nodeType);
-    const lastSimilarNodeId = lastSimilarNode ? lastSimilarNode.id : `${nodeType}-0`;
-    const nextNodeNumericId = String(+lastSimilarNodeId.split("-")[1] + 1);
     const nextNodePosition = {
       x: (lastNode?.position.x || 0) + (lastNode?.width || 0) + 80,
-      y: (lastNode?.position.y || 0) + (lastNode?.height || 0),
+      y: (lastNode?.position.y || 0) + (lastNode?.height || 0) / 2,
     };
+    const newNode = getNodeObject(nodes, nodeType, nextNodePosition);
 
-    reactFlow.setNodes((oldNodes) => [
-      ...oldNodes,
-      {
-        id: `${nodeType}-${nextNodeNumericId}`,
-        type: nodeType,
-        position: nextNodePosition,
-        data: { type: nodeType, label: `${nodeType} ${nextNodeNumericId}` },
-      },
-    ]);
+    reactFlow.setNodes((oldNodes) => [...oldNodes, newNode]);
+  };
+
+  const onDragStart = (event: DragEvent<HTMLButtonElement>, nodeType: CustomNodeType) => {
+    event.dataTransfer.setData("application/reactflow", nodeType);
+    event.dataTransfer.effectAllowed = "move";
   };
 
   return (
@@ -60,24 +54,30 @@ export const NodesPanel = ({ show }: Props) => {
         </div>
         <div className="flex flex-col gap-2 p-3">
           <button
-            className="text-white bg-message rounded-md p-4 flex items-center gap-2 hover:bg-message-darkest transition-colors duration-200"
+            className="text-white bg-message rounded-md p-4 flex items-center gap-2 hover:bg-message-darkest transition-colors duration-200 cursor-grab active:cursor-grabbing"
             onClick={() => addNode("Message")}
+            onDragStart={(event) => onDragStart(event, "Message")}
+            draggable
           >
             <MessageSquareText size={20} />
             <span className="font-semibold text-lg flex-grow text-left">Message</span>
             <Plus size={24} absoluteStrokeWidth />
           </button>
           <button
-            className="text-white bg-image rounded-md p-4 flex items-center gap-2 hover:bg-image-darkest transition-colors duration-200"
+            className="text-white bg-image rounded-md p-4 flex items-center gap-2 hover:bg-image-darkest transition-colors duration-200 cursor-grab active:cursor-grabbing"
             onClick={() => addNode("Image")}
+            onDragStart={(event) => onDragStart(event, "Image")}
+            draggable
           >
             <Image size={20} />
             <span className="font-semibold text-lg flex-grow text-left">Image</span>
             <Plus size={24} absoluteStrokeWidth />
           </button>
           <button
-            className="text-white bg-audio rounded-md p-4 flex items-center gap-2 hover:bg-audio-darkest transition-colors duration-200"
+            className="text-white bg-audio rounded-md p-4 flex items-center gap-2 hover:bg-audio-darkest transition-colors duration-200 cursor-grab active:cursor-grabbing"
             onClick={() => addNode("Audio")}
+            onDragStart={(event) => onDragStart(event, "Audio")}
+            draggable
           >
             <AudioLines size={20} />
             <span className="font-semibold text-lg flex-grow text-left">Audio</span>

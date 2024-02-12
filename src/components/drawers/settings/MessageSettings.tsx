@@ -1,16 +1,17 @@
-import { ChevronLeft, MessageSquareText } from "lucide-react";
+import { ChevronLeft, MessageSquareText, Trash2 } from "lucide-react";
 import { ChangeEvent } from "react";
 import { useReactFlow } from "reactflow";
 import { CustomNodeData } from "../../nodes";
 
 type Props = {
   onBack: () => void;
+  onDelete: () => void;
   onNodeDataChange: (data: HandleNodeChangeData) => void;
 };
 
 type HandleNodeChangeData = Partial<CustomNodeData & { selected: boolean }>;
 
-export const MessageSettings = ({ onBack, onNodeDataChange }: Props) => {
+export const MessageSettings = ({ onBack, onDelete, onNodeDataChange }: Props) => {
   const reactFlow = useReactFlow();
   const nodes = reactFlow.getNodes();
   const selectedNode = nodes.find((node) => node.selected);
@@ -28,7 +29,7 @@ export const MessageSettings = ({ onBack, onNodeDataChange }: Props) => {
   };
 
   return (
-    <>
+    <div className="h-full flex flex-col">
       <div className="relative px-3 py-6 flex items-center">
         <button className="absolute rounded-md p-1 hover:bg-gray-200" onClick={onBack}>
           <ChevronLeft size={28} absoluteStrokeWidth />
@@ -38,7 +39,7 @@ export const MessageSettings = ({ onBack, onNodeDataChange }: Props) => {
           <h1 className="text-xl font-bold">{selectedNode.type}</h1>
         </div>
       </div>
-      <div className="flex flex-col gap-2 p-3">
+      <div className="flex flex-col flex-grow gap-2 p-3">
         <label htmlFor="label" className="text-gray-600">
           Label
         </label>
@@ -64,6 +65,15 @@ export const MessageSettings = ({ onBack, onNodeDataChange }: Props) => {
           className="outline outline-gray-300 focus:outline-2 focus:outline-gray-500 rounded-md py-2 px-3"
         ></textarea>
       </div>
-    </>
+      <div className="px-3 py-6">
+        <button
+          className="text-white bg-red-500 p-2 flex gap-2 items-center rounded-md w-full justify-center hover:bg-red-700 transition-colors duration-200"
+          onClick={onDelete}
+        >
+          <Trash2 size={20} />
+          Delete
+        </button>
+      </div>
+    </div>
   );
 };

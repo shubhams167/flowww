@@ -1,5 +1,7 @@
-import { Edge, MarkerType } from "reactflow";
+import { Edge, MarkerType, Node, XYPosition } from "reactflow";
+import { CustomNodeType } from "../components/nodes";
 import { ReactFlowState } from "./types";
+import _ from "lodash";
 
 export const addEndMarker = (edge: Edge) => ({
   ...edge,
@@ -26,4 +28,22 @@ export const getFlowsFromLocalStorage = () => {
     } catch (err) {}
   }
   return flows;
+};
+
+export const getNodeObject = (
+  nodes: Node<any, string | undefined>[],
+  type: CustomNodeType,
+  position: XYPosition
+) => {
+  // last node with type = nodeType
+  const lastSimilarNode = _.findLast(nodes, (node) => node.type === type);
+  const lastSimilarNodeId = lastSimilarNode ? lastSimilarNode.id : `${type}-0`;
+  const nextNodeNumericId = String(+lastSimilarNodeId.split("-")[1] + 1);
+
+  return {
+    id: `${type}-${nextNodeNumericId}`,
+    type,
+    position,
+    data: { type: type, label: `${type} ${nextNodeNumericId}` },
+  };
 };

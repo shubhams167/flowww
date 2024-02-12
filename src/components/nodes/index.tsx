@@ -8,6 +8,6 @@ export * from "./Audio";
 
 export const nodeTypes = { Message, Image, Audio } as const;
 
-export type CustomNode = keyof typeof nodeTypes;
+export type CustomNodeType = keyof typeof nodeTypes;
 
 export type CustomNodeData = MessageData | ImageData | AudioData;
