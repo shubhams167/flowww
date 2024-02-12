@@ -49,7 +49,7 @@ export const Home = () => {
         >
           <Link
             to="/create"
-            className="text-white bg-slate-700 w-60 rounded-md px-6 py-4 flex justify-center items-center gap-3 hover:bg-slate-900 transition-colors duration-200"
+            className="text-white bg-slate-700 border-2 border-slate-700 w-60 rounded-md px-6 py-4 flex justify-center items-center gap-3 hover:bg-slate-900 hover:border-slate-900 transition-colors duration-200"
           >
             <BadgePlus size={24} absoluteStrokeWidth />
             <span className="font-semibold text-xl text-left">Create a flow</span>
@@ -67,7 +67,7 @@ export const Home = () => {
         >
           <Link
             to="/view"
-            className="text-black border-2 border-slate-800 w-60 rounded-md px-6 py-4 flex justify-center items-center gap-3 hover:bg-slate-900 hover:text-white transition-colors duration-200"
+            className="text-black border-2 border-slate-800 w-60 rounded-md px-6 py-4 flex justify-center items-center gap-3 hover:bg-slate-100 transition-colors duration-200"
           >
             <Workflow size={24} absoluteStrokeWidth />
             <span className="font-semibold text-xl text-left">See your flows</span>
