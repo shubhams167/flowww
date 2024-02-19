@@ -1,5 +1,5 @@
 import { Transition } from "@headlessui/react";
-import { AudioLines, ImageIcon, MessageSquareText, Shapes, SidebarClose, SidebarOpen } from "lucide-react";
+import { AudioLines, ImageIcon, Shapes, SidebarClose, SidebarOpen, TextIcon } from "lucide-react";
 import React, { DragEvent, useEffect } from "react";
 import { useReactFlow } from "reactflow";
 import useLocalStorage from "../../hooks/useLocaleStorage";
@@ -12,9 +12,9 @@ type Props = {
 
 const nodeButtons = [
   {
-    name: "Message",
-    styles: "bg-message hover:bg-message-darkest",
-    icon: <MessageSquareText size={20} />,
+    name: "Text",
+    styles: "bg-text hover:bg-text-darkest",
+    icon: <TextIcon size={20} />,
   },
   {
     name: "Image",

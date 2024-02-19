@@ -2,19 +2,19 @@ import { createBrowserRouter, createHashRouter, createRoutesFromElements, Route 
 import { Layout } from "../components/layout";
 import { Create } from "./create";
 import { Home } from "./home";
+import { Manage } from "./manage";
 import { Settings } from "./settings";
-import { View } from "./view";
 
 export * from "./create";
 export * from "./home";
+export * from "./manage";
 export * from "./settings";
-export * from "./view";
 
 const routes = createRoutesFromElements(
   <Route element={<Layout />}>
     <Route path="/" index element={<Home />} />
     <Route path="/create/:flowId?" element={<Create />} />
-    <Route path="/view" element={<View />} />
+    <Route path="/manage" element={<Manage />} />
     <Route path="/settings" element={<Settings />} />
   </Route>
 );

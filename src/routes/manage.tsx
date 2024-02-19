@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { getFlowsFromLocalStorage } from "../lib/utils";
 
-export const View = () => {
+export const Manage = () => {
   const flows = useMemo(() => getFlowsFromLocalStorage(), []);
 
   return (

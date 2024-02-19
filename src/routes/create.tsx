@@ -17,10 +17,9 @@ import { NodesDrawer, SettingsDrawer } from "../components/drawers";
 import { CustomNodeData, CustomNodeType, nodeTypes } from "../components/nodes";
 import useLocalStorage from "../hooks/useLocaleStorage";
 import { ReactFlowState } from "../lib/types";
-import { addEndMarker, getNodeObject, isValidLinearFlow } from "../lib/utils";
+import { addEndMarker, getNodeObject } from "../lib/utils";
 
 export const Create = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [nodes, setNodes, onNodesChange] = useNodesState<CustomNodeData>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<never>([]);
   const { flowId } = useParams();
@@ -59,7 +58,7 @@ export const Create = () => {
       // do not connect same node
       if (params.source === params.target) return;
       // do not allow more than one edge from same source
-      if (edges.some((edge) => edge.source === params.source)) return;
+      // if (edges.some((edge) => edge.source === params.source)) return;
 
       setEdges((eds) => addEdge(params, eds).map(addEndMarker));
     },
@@ -97,11 +96,9 @@ export const Create = () => {
     [rfInstance, nodes, setNodes]
   );
 
+  // TODO: Implement publishing feature
   const onPublish = () => {
-    if (isValidLinearFlow(nodes, edges)) {
-      return toast.success("Published");
-    }
-    toast.error("Invalid flow");
+    return toast.error("This feature is not yet implemented");
   };
 
   const onDelete = () => {
@@ -109,7 +106,7 @@ export const Create = () => {
 
     window.localStorage.removeItem(uuid);
     toast.success("Deleted");
-    navigate("/view");
+    navigate("/manage");
   };
 
   const selectedNode = nodes.find((node) => node.selected);

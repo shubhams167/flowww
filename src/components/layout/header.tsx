@@ -33,7 +33,7 @@ const Header = () => {
           >
             <BadgePlus size={24} absoluteStrokeWidth />
           </NavLink>
-          <NavLink to="/view" title="See your flows" className="mx-auto rounded-md p-2 hover:bg-gray-200">
+          <NavLink to="/manage" title="Manage your flows" className="mx-auto rounded-md p-2 hover:bg-gray-200">
             <Workflow size={24} absoluteStrokeWidth />
           </NavLink>
         </div>

@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        message: {
+        text: {
           darkest: colors.purple[900],
           dark: colors.purple[700],
           DEFAULT: colors.purple[700],

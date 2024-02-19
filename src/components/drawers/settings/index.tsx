@@ -4,7 +4,7 @@ import { useReactFlow } from "reactflow";
 import { CustomNodeData } from "../../nodes";
 import { AudioSettings } from "./AudioSettings";
 import { ImageSettings } from "./ImageSettings";
-import { MessageSettings } from "./MessageSettings";
+import { TextSettings } from "./TextSettings";
 
 type Props = {
   show: boolean;
@@ -32,7 +32,7 @@ export const SettingsDrawer = ({ show }: Props) => {
           data: {
             ...node.data,
             label: data.label ?? node.data.label,
-            ...(data.type === "Message" ? { text: data.text ?? node.data.text } : {}),
+            ...(data.type === "Text" ? { text: data.text ?? node.data.text } : {}),
             ...(data.type === "Audio" ? { src: data.src ?? node.data.text } : {}),
             ...(data.type === "Image" ? { src: data.src ?? node.data.text } : {}),
           },
@@ -66,8 +66,8 @@ export const SettingsDrawer = ({ show }: Props) => {
       leaveTo="translate-x-full"
     >
       <div className="absolute right-0 h-screen w-2/12 bg-white shadow-xl">
-        {selectedNodeData.type === "Message" && (
-          <MessageSettings onBack={onBack} onDelete={onDelete} onNodeDataChange={handleNodeDataChange} />
+        {selectedNodeData.type === "Text" && (
+          <TextSettings onBack={onBack} onDelete={onDelete} onNodeDataChange={handleNodeDataChange} />
         )}
         {selectedNodeData.type === "Image" && (
           <ImageSettings onBack={onBack} onDelete={onDelete} onNodeDataChange={handleNodeDataChange} />

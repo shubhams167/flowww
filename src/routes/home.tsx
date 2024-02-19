@@ -49,7 +49,7 @@ export const Home = () => {
         >
           <Link
             to="/create"
-            className="flex w-60 items-center justify-center gap-3 rounded-md border-2 border-slate-700 bg-slate-700 px-6 py-4 text-white transition-colors duration-200 hover:border-slate-900 hover:bg-slate-900"
+            className="flex w-80 items-center justify-center gap-3 rounded-md border-2 border-slate-700 bg-slate-700 px-6 py-4 text-white transition-colors duration-200 hover:border-slate-900 hover:bg-slate-900"
           >
             <BadgePlus size={24} absoluteStrokeWidth />
             <span className="text-left text-xl font-semibold">Create a flow</span>
@@ -66,11 +66,11 @@ export const Home = () => {
           leaveTo="opacity-0 translate-y-1/2"
         >
           <Link
-            to="/view"
-            className="flex w-60 items-center justify-center gap-3 rounded-md border-2 border-slate-800 px-6 py-4 text-black transition-colors duration-200 hover:bg-slate-100"
+            to="/manage"
+            className="flex w-80 items-center justify-center gap-3 rounded-md border-2 border-slate-800 px-6 py-4 text-black transition-colors duration-200 hover:bg-slate-100"
           >
             <Workflow size={24} absoluteStrokeWidth />
-            <span className="text-left text-xl font-semibold">See your flows</span>
+            <span className="text-left text-xl font-semibold">Manage your flows</span>
           </Link>
         </Transition>
       </div>
